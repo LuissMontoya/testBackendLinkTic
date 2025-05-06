@@ -37,28 +37,28 @@ Lombok <br />
 MapStruct  <br />
 RestTemplate para comunicación entre microservicios <br />
 
-🚀 Instrucciones de instalación y ejecución
+🚀 Instrucciones de instalación y ejecución <br />
 Requisitos previos: <br />
 Docker y Docker Compose instalados
 docker-compose build <br />
 docker-compose up <br />
 
-Swagger UI:
+Swagger UI: <br />
 http://localhost:8080/swagger-ui/index.html#/
 
-🔐 Autenticación
+🔐 Autenticación <br />
 La mayoría de los endpoints requieren un token JWT, que se puede obtener con el siguiente servicio:
 POST - http://localhost:8080/api/auth/login?email=juan.perez2@example.com&password=admin
 
-🪵 Logging
+🪵 Logging <br />
 Se utiliza Logback como framework de logging, el cual está configurado desde el archivo logback.xml
 Los logs de la aplicación quedan en la siguiente ruta con base en su configuración:
 C:\logs\pruebaLinkTic.log
 
-✅ Tests Automatizados
-El proyecto incluye una suite de pruebas integradas (@SpringBootTest) utilizando MockMvc 
-para validar el comportamiento de los endpoints del controlador ProductController.
-A continuación se describen los principales escenarios probados:
+✅ Tests Automatizados <br />
+El proyecto incluye una suite de pruebas integradas (@SpringBootTest) utilizando MockMvc  <br />
+para validar el comportamiento de los endpoints del controlador ProductController. <br />
+A continuación se describen los principales escenarios probados: <br />
 
 🔐 Autenticación: <br /> 
 Obtención de token mediante login con credenciales válidas. <br /> 
@@ -76,7 +76,7 @@ Obtención de token mediante login con credenciales válidas. <br />
 ⚠️ Error por datos incompletos o inválidos retorna error 400 con mensaje correspondiente.  <br />  
 
 
-✍️ Autor
-Luis Fernando Montoya
+✍️ Autor <br />
+Luis Fernando Montoya <br />
 Desarrollador Backend Java + Angular
 
