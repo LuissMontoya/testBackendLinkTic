@@ -17,17 +17,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private JwtRequestFilter jwtRequestFilter;
 	
 	 @Override
-	    public void configure(WebSecurity web) throws Exception {
-	        // Permitir el acceso a Swagger UI y otros recursos estáticos
-	        web.ignoring().antMatchers("/swagger-ui/index.html","/swagger-ui/**", "/v2/api-docs");
-	    }
+     public void configure(WebSecurity web) throws Exception {
+         // Permitir el acceso a Swagger UI y otros recursos estáticos
+         web.ignoring().antMatchers("/swagger-ui/index.html", "/swagger-ui/**", "/v2/api-docs", "/swagger-resources/**", "/webjars/**");
+     }
 	
 	@Override
     protected void configure(HttpSecurity http) throws Exception {
 		 http.cors().and().csrf().disable()
          .authorizeRequests()
-         .antMatchers("/swagger-ui/index.html", "/v2/api-docs","/**").permitAll() 
-         .antMatchers("/api/user/create", "/api/user/getAll", "/api/auth/login","/swagger-ui/index.html").permitAll() 
+         .antMatchers("/swagger-ui/index.html", "/swagger-ui/**", "/v2/api-docs", "/swagger-resources/**", "/webjars/**", "/api/user/create", "/api/auth/login").permitAll()
          .anyRequest().authenticated()  
          .and()
          .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
