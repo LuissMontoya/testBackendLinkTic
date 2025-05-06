@@ -4,6 +4,8 @@ import co.com.test.linktic.appEcommerce.AppEcommerceApplication;
 import co.com.test.linktic.appEcommerce.DTO.ProductDTO;
 import co.com.test.linktic.appEcommerce.repositories.CategoryRepository;
 import co.com.test.linktic.appEcommerce.service.impl.ProductServiceImpl;
+import co.com.test.linktic.appEcommerce.utils.JwtTokenUtil;
+import co.com.test.linktic.appEcommerce.utils.Utils;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -13,6 +15,7 @@ import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
@@ -24,6 +27,8 @@ import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import org.junit.jupiter.api.Test;
+
+import java.io.UnsupportedEncodingException;
 
 
 @SpringBootTest(classes = AppEcommerceApplication.class)
@@ -45,10 +50,22 @@ public class ProductControllerTest {
 
     private ProductDTO productDTO;
 
+    private String getTokenFromLogin() throws Exception {
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.post("http://localhost:8080/api/auth/login?email=juan.perez2@example.com&password=admin")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().is(202))
+                .andReturn();
+        String response = result.getResponse().getContentAsString();
+        return JwtTokenUtil.obtenerTokenDeRespuesta(response);
+    }
+
     @Test
     public void Cuando_se_llama_a_productos_el_estado_es_200() throws Exception {
+        String token = getTokenFromLogin();
+
         mvc.perform(MockMvcRequestBuilders.get("http://localhost:8080/api/product/search?id=1")
-                .contentType(MediaType.APPLICATION_JSON))
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.content()
                         .contentType(MediaType.APPLICATION_JSON));
@@ -62,9 +79,10 @@ public class ProductControllerTest {
         productoDTO.setPrice(430.000);
         productoDTO.setStock(45);
         productoDTO.setCategory_id(1);
-
+        String token = getTokenFromLogin();
         MvcResult resultadoProductoCreado = mvc.perform(
                         MockMvcRequestBuilders.post("http://localhost:8080/api/product/create")
+                                .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper.writeValueAsString(productoDTO)))
                 .andExpect(status().isCreated())
@@ -83,7 +101,7 @@ public class ProductControllerTest {
 
     @Test
     public void actualizarProductoDeberiaModificarYRetornarProductoActualizado() throws Exception {
-
+        String token = getTokenFromLogin();
         ProductDTO productoInicial = new ProductDTO();
         productoInicial.setName("Silla Original");
         productoInicial.setDescription("Silla básica");
@@ -92,6 +110,7 @@ public class ProductControllerTest {
         productoInicial.setCategory_id(1);
 
         MvcResult resultadoCreado = mvc.perform(MockMvcRequestBuilders.post("/api/product/create")
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(productoInicial)))
                 .andExpect(status().isCreated())
@@ -110,6 +129,7 @@ public class ProductControllerTest {
         productoActualizado.setCategory_id(1);
 
         mvc.perform(MockMvcRequestBuilders.put("/api/product/update")
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(productoActualizado)))
                 .andExpect(status().isOk())
@@ -132,8 +152,9 @@ public class ProductControllerTest {
         productoInexistente.setPrice(100.0);
         productoInexistente.setStock(0);
         productoInexistente.setCategory_id(1);
-
+        String token = getTokenFromLogin();
         mvc.perform(MockMvcRequestBuilders.put("/api/product/update")
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(productoInexistente)))
                 .andExpect(status().isNotFound())
@@ -150,8 +171,9 @@ public class ProductControllerTest {
         producto.setPrice(200.0);
         producto.setStock(5);
         producto.setCategory_id(1);
-
+        String token = getTokenFromLogin();
         mvc.perform(MockMvcRequestBuilders.put("/api/product/update")
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(producto)))
                 .andExpect(status().is4xxClientError())
@@ -161,7 +183,9 @@ public class ProductControllerTest {
 
     @Test
     public void erroAlConsultarProductoDeberiaRetornarMsgNOT_FOUND() throws Exception {
+        String token = getTokenFromLogin();
         mvc.perform(MockMvcRequestBuilders.get("/api/product/search?id=999")
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.statusCode", is(404)))

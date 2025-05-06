@@ -9,8 +9,9 @@ CREATE TABLE IF NOT EXISTS users (
 );
 
 
-INSERT INTO users (name, email, password, phone) VALUES ('Luis Fernando Montoya', 'luis@example.com', '123', '123-456-7890');
-INSERT INTO users (name, email, password, phone) VALUES ('Carlos García', 'carlos@example.com', '123', '555-555-5555');
+INSERT INTO users (name, email, password, phone) VALUES ('Luis Fernando Montoya', 'luis@example.com', '$2a$10$gFhHaxmsK5V4ZFyis4siXukr2Jvb2uYo3wWZVrFvSUhH2MO4SR/iq', '123-456-7890');
+INSERT INTO users (name, email, password, phone) VALUES ('Carlos García', 'carlos@example.com', '$2a$10$gFhHaxmsK5V4ZFyis4siXukr2Jvb2uYo3wWZVrFvSUhH2MO4SR/iq', '555-555-5555');
+INSERT INTO users (name, email, password, phone) VALUES ('Juan Perez', 'juan.perez2@example.com', '$2a$10$gFhHaxmsK5V4ZFyis4siXukr2Jvb2uYo3wWZVrFvSUhH2MO4SR/iq', '555-555-5555');
 
 CREATE TABLE IF NOT EXISTS category (
     id_category INT AUTO_INCREMENT PRIMARY KEY,
