@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import co.com.test.linktic.appEcommerce.service.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,7 +20,6 @@ import co.com.test.linktic.appEcommerce.entity.Product;
 import co.com.test.linktic.appEcommerce.mapper.ProductsMapper;
 import co.com.test.linktic.appEcommerce.repositories.CategoryRepository;
 import co.com.test.linktic.appEcommerce.repositories.ProductRepository;
-import co.com.test.linktic.appEcommerce.service.IProductService;
 import co.com.test.linktic.appEcommerce.utils.Constants;
 import co.com.test.linktic.appEcommerce.utils.Utils;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +28,11 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class ProductServiceImpl implements IProductService {
+public class ProductServiceImpl implements
+		IProductCreateService,
+		IProductQueryService,
+		IProductUpdateService,
+		IProductDeleteService {
 
 	private final ProductRepository productRepository;
 	private final CategoryRepository categoryRepository;

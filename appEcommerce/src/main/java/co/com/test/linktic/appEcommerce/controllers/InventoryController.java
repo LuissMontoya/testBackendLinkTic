@@ -1,6 +1,7 @@
 package co.com.test.linktic.appEcommerce.controllers;
 
 import co.com.test.linktic.appEcommerce.DTO.ResponseDTO;
+import co.com.test.linktic.appEcommerce.service.IInventoryService;
 import co.com.test.linktic.appEcommerce.service.impl.InventoryServiceImpl;
 import co.com.test.linktic.appEcommerce.utils.Constants;
 import co.com.test.linktic.appEcommerce.utils.Utils;
@@ -17,12 +18,12 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class InventoryController {
 
-    private final InventoryServiceImpl inventoryServiceImpl;
+    private final IInventoryService service;
 
     @GetMapping("/product/{productId}")
     public ResponseEntity<ResponseDTO> getInventory(@PathVariable Integer productId, @RequestHeader("Authorization") String authorization) {
         String token = authorization.substring(7);
-        return inventoryServiceImpl.getInventoryDetails(productId, token);
+        return service.getInventoryDetails(productId, token);
     }
 
     @PutMapping("/product/{productId}/update")
@@ -30,7 +31,7 @@ public class InventoryController {
                                                   @RequestParam int quantity) {
         ResponseDTO response;
         try {
-            inventoryServiceImpl.updateQuantity(productId, quantity);
+            service.updateQuantity(productId, quantity);
 
             response = Utils.mapearRespuesta(HttpStatus.OK.name(), HttpStatus.OK.value(), Constants.CANTIDAD_ACTUALIZADA);
             return new ResponseEntity<>(response, HttpStatus.OK);

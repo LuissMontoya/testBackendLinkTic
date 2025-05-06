@@ -1,5 +1,6 @@
 package co.com.test.linktic.appEcommerce.controllers;
 
+import co.com.test.linktic.appEcommerce.service.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import co.com.test.linktic.appEcommerce.DTO.CategoryDTO;
 import co.com.test.linktic.appEcommerce.DTO.ResponseDTO;
-import co.com.test.linktic.appEcommerce.service.impl.CategoryServiceImpl;
 import co.com.test.linktic.appEcommerce.utils.Constants;
 import co.com.test.linktic.appEcommerce.utils.RespErrorMessage;
 import io.swagger.annotations.ApiResponse;
@@ -27,7 +27,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CategoryController {
 
-	private final CategoryServiceImpl categoryServiceImpl;
+	private final ICategoryCreateService createService;
+	private final ICategoryUpdateService updateService;
+	private final ICategoryQueryService findService;
+	private final ICategoryDeleteService deleteService;
 
 	@ApiResponses(value = {
 			@ApiResponse(code = Constants.CODIGO_200, message = Constants.MESG_200, response = RespErrorMessage.class),
@@ -36,7 +39,7 @@ public class CategoryController {
 			@ApiResponse(code = Constants.CODIGO_500, message = Constants.MESG_500, response = RespErrorMessage.class) })
 	@PostMapping("/create")
 	public ResponseEntity<ResponseDTO> saveCategory(@RequestBody CategoryDTO category) {
-		return this.categoryServiceImpl.saveCategory(category);
+		return this.createService.saveCategory(category);
 	}
 
 	@GetMapping("/search")
@@ -46,7 +49,7 @@ public class CategoryController {
 			@ApiResponse(code = Constants.CODIGO_422, message = Constants.MESG_422, response = RespErrorMessage.class),
 			@ApiResponse(code = Constants.CODIGO_500, message = Constants.MESG_500, response = RespErrorMessage.class) })
 	public ResponseEntity<ResponseDTO> findClientById(@RequestParam("id") Integer id) {
-		return this.categoryServiceImpl.findCategoryById(id);
+		return this.findService.findCategoryById(id);
 	}
 
 	@GetMapping("/getAll")
@@ -56,7 +59,7 @@ public class CategoryController {
 			@ApiResponse(code = Constants.CODIGO_422, message = Constants.MESG_422, response = RespErrorMessage.class),
 			@ApiResponse(code = Constants.CODIGO_500, message = Constants.MESG_500, response = RespErrorMessage.class) })
 	public ResponseEntity<ResponseDTO> getAll() {
-		return this.categoryServiceImpl.getAll();
+		return this.findService.getAll();
 	}
 
 	@PutMapping("/update")
@@ -66,7 +69,7 @@ public class CategoryController {
 			@ApiResponse(code = Constants.CODIGO_422, message = Constants.MESG_422, response = RespErrorMessage.class),
 			@ApiResponse(code = Constants.CODIGO_500, message = Constants.MESG_500, response = RespErrorMessage.class) })
 	public ResponseEntity<ResponseDTO> update(@RequestBody CategoryDTO client) {
-		return this.categoryServiceImpl.updateCategory(client);
+		return this.updateService.updateCategory(client);
 	}
 	
 	 @DeleteMapping("/delete")
@@ -76,7 +79,7 @@ public class CategoryController {
 	            @ApiResponse(code = Constants.CODIGO_422, message = Constants.MESG_422, response = RespErrorMessage.class),
 	            @ApiResponse(code = Constants.CODIGO_500, message = Constants.MESG_500, response = RespErrorMessage.class) })
 	    public ResponseEntity<ResponseDTO> delete(@RequestParam("id") Integer id) {
-	    	return this.categoryServiceImpl.delete(id);
+	    	return this.deleteService.delete(id);
 	    	}
 
 

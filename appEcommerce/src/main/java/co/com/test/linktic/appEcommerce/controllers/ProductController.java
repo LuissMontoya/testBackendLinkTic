@@ -1,5 +1,9 @@
 package co.com.test.linktic.appEcommerce.controllers;
 
+import co.com.test.linktic.appEcommerce.service.IProductCreateService;
+import co.com.test.linktic.appEcommerce.service.IProductDeleteService;
+import co.com.test.linktic.appEcommerce.service.IProductQueryService;
+import co.com.test.linktic.appEcommerce.service.IProductUpdateService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import co.com.test.linktic.appEcommerce.DTO.ProductDTO;
 import co.com.test.linktic.appEcommerce.DTO.ResponseDTO;
-import co.com.test.linktic.appEcommerce.service.impl.ProductServiceImpl;
 import co.com.test.linktic.appEcommerce.utils.Constants;
 import co.com.test.linktic.appEcommerce.utils.RespErrorMessage;
 import io.swagger.annotations.ApiResponse;
@@ -31,7 +34,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ProductController {
 
-	private final ProductServiceImpl productServiceImpl;
+	private final IProductCreateService createService;
+	private final IProductUpdateService updateService;
+	private final IProductQueryService findService;
+	private final IProductDeleteService deleteService;
 
 	@ApiResponses(value = {
 			@ApiResponse(code = Constants.CODIGO_200, message = Constants.MESG_200, response = RespErrorMessage.class),
@@ -40,7 +46,7 @@ public class ProductController {
 			@ApiResponse(code = Constants.CODIGO_500, message = Constants.MESG_500, response = RespErrorMessage.class) })
 	@PostMapping("/create")
 	public ResponseEntity<ResponseDTO> saveProduct(@Valid @RequestBody ProductDTO Product) {
-		return this.productServiceImpl.saveProduct(Product);
+		return this.createService.saveProduct(Product);
 	}
 
 	@GetMapping("/search")
@@ -50,7 +56,7 @@ public class ProductController {
 			@ApiResponse(code = Constants.CODIGO_422, message = Constants.MESG_422, response = RespErrorMessage.class),
 			@ApiResponse(code = Constants.CODIGO_500, message = Constants.MESG_500, response = RespErrorMessage.class) })
 	public ResponseEntity<ResponseDTO> findProductById(@RequestParam("id") Integer id) {
-		return this.productServiceImpl.findProductById(id);
+		return this.findService.findProductById(id);
 	}
 
 	@GetMapping("/getAll")
@@ -60,7 +66,7 @@ public class ProductController {
 			@ApiResponse(code = Constants.CODIGO_422, message = Constants.MESG_422, response = RespErrorMessage.class),
 			@ApiResponse(code = Constants.CODIGO_500, message = Constants.MESG_500, response = RespErrorMessage.class) })
 	public ResponseEntity<ResponseDTO> getAll() {
-		return this.productServiceImpl.getAll();
+		return this.findService.getAll();
 	}
 
 	@GetMapping("/getByPage")
@@ -73,7 +79,7 @@ public class ProductController {
 			@RequestParam(defaultValue = "0") int page,
 			@RequestParam(defaultValue = "10") int size
 	) {
-		return this.productServiceImpl.getAllPaginate(page, size);
+		return this.findService.getAllPaginate(page, size);
 	}
 
 
@@ -91,7 +97,7 @@ public class ProductController {
 
 			return ResponseEntity.badRequest().body(new ResponseDTO(400, errores, null));
 		}
-		return this.productServiceImpl.updateProduct(productDTO);
+		return this.updateService.updateProduct(productDTO);
 	}
 	
 	 @DeleteMapping("/delete")
@@ -101,7 +107,7 @@ public class ProductController {
 	            @ApiResponse(code = Constants.CODIGO_422, message = Constants.MESG_422, response = RespErrorMessage.class),
 	            @ApiResponse(code = Constants.CODIGO_500, message = Constants.MESG_500, response = RespErrorMessage.class) })
 	    public ResponseEntity<ResponseDTO> delete(@RequestParam("id") Integer id) {
-	    	return this.productServiceImpl.delete(id);
+	    	return this.deleteService.delete(id);
 	    	}
 
 

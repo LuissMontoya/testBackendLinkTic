@@ -2,7 +2,6 @@ package co.com.test.linktic.appEcommerce.service.impl;
 
 import co.com.test.linktic.appEcommerce.DTO.ProductDTO;
 import co.com.test.linktic.appEcommerce.DTO.ResponseDTO;
-import co.com.test.linktic.appEcommerce.entity.Inventory;
 import co.com.test.linktic.appEcommerce.entity.Product;
 import co.com.test.linktic.appEcommerce.repositories.InventoryRepository;
 import co.com.test.linktic.appEcommerce.repositories.ProductRepository;
@@ -32,6 +31,7 @@ public class InventoryServiceImpl implements IInventoryService {
 	@Value("${products.service.url}")
 	private String productServiceUrl;
 
+	@Override
 	public ResponseEntity<ResponseDTO> getInventoryDetails(Integer productId, String token) {
 		log.info("getInventoryDetails - productId: {}", productId);
 		ResponseDTO response;
@@ -88,6 +88,7 @@ public class InventoryServiceImpl implements IInventoryService {
 		}
 	}
 
+	@Override
 	public void updateQuantity(int productId, int quantity) {
 		Product product = productRepository.findById(productId)
 				.orElseThrow(() -> new RuntimeException(Constants.PRODUCTO_NO_ENCONTRADO));

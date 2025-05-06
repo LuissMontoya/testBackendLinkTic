@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import co.com.test.linktic.appEcommerce.service.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,6 @@ import co.com.test.linktic.appEcommerce.entity.Product;
 import co.com.test.linktic.appEcommerce.mapper.OrdersMapper;
 import co.com.test.linktic.appEcommerce.repositories.OrderRepository;
 import co.com.test.linktic.appEcommerce.repositories.ProductRepository;
-import co.com.test.linktic.appEcommerce.service.IOrderService;
 import co.com.test.linktic.appEcommerce.utils.Constants;
 import co.com.test.linktic.appEcommerce.utils.Utils;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,11 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class OrderServiceImpl implements IOrderService {
+public class OrderServiceImpl implements
+		IOrderQueryService,
+		IOrderCreateService,
+		IOrderUpdateService,
+		IOrderDeleteService {
 
 	private final OrderRepository orderRepository;
 	private final ProductRepository productRepository;
