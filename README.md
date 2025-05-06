@@ -55,6 +55,25 @@ Se utiliza Logback como framework de logging, el cual está configurado desde el
 Los logs de la aplicación quedan en la siguiente ruta con base en su configuración:
 C:\logs\pruebaLinkTic.log
 
+✅ Tests Automatizados
+El proyecto incluye una suite de pruebas integradas (@SpringBootTest) utilizando MockMvc 
+para validar el comportamiento de los endpoints del controlador ProductController.
+A continuación se describen los principales escenarios probados:
+
+🔐 Autenticación: <br /> 
+Obtención de token mediante login con credenciales válidas. <br /> 
+
+📦 Consulta de productos: <br /> 
+✔️ Consulta exitosa de producto por ID (status 200).<br />  
+❌ Consulta de producto inexistente retorna código 404 con mensaje NOT_FOUND. <br /> 
+
+➕ Creación de producto: <br /> 
+✔️ Creación exitosa de un producto y validación de los atributos retornados (status 201). <br /> 
+
+🔄 Actualización de producto: <br /> 
+✔️ Actualización correcta de producto existente y validación de respuesta (status 200). <br />  
+❌ Actualización de producto no existente devuelve 404 con mensaje de error.   <br />  
+⚠️ Error por datos incompletos o inválidos retorna error 400 con mensaje correspondiente.  <br />  
 
 
 ✍️ Autor
