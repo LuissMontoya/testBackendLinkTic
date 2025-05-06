@@ -12,6 +12,20 @@ Este proyecto consiste en dos microservicios desarrollados con Spring Boot:
 
 Los servicios se comunican usando el estándar JSON:API.
 
+📦 Estructura del Proyecto:
+
+src/main/java/co.com.test.linktic.appEcommerce
+├── Config/ # Configuraciones globales (seguridad, CORS, beans, etc.)
+├── controllers/ # Controladores REST que manejan las solicitudes HTTP
+├── dto/ # Clases que representan los datos transferidos entre capas
+├── entity/ # Entidades JPA que representan las tablas de la base de datos
+├── mapper/ # Mappers entre entidades y DTOs
+├── repositories/ # Repositorios JPA (acceso a datos)
+├── service/ # Interfaces de lógica de negocio
+├── service/impl/ # Implementaciones de servicios
+├── utils/ # Clases utilitarias (mapeo, constantes, validaciones)
+└── AppEcommerceApplication.java # Clase principal 
+
 ⚙️ Tecnologías Usadas
 Java 17
 Spring Boot 2.5.5 
@@ -32,4 +46,18 @@ docker-compose up
 Swagger UI:
 http://localhost:8080/swagger-ui/index.html#/
 
+🔐 Autenticación
+La mayoría de los endpoints requieren un token JWT, que se puede obtener con el siguiente servicio:
+POST - http://localhost:8080/api/auth/login?email=juan.perez2@example.com&password=admin
+
+🪵 Logging
+Se utiliza Logback como framework de logging, el cual está configurado desde el archivo logback.xml
+Los logs de la aplicación quedan en la siguiente ruta con base en su configuración:
+C:\logs\pruebaLinkTic.log
+
+
+
+✍️ Autor
+Luis Fernando Montoya
+Desarrollador Backend Java + Angular
 
