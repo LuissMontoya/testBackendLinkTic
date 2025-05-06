@@ -20,8 +20,9 @@ public class InventoryController {
     private final InventoryServiceImpl inventoryServiceImpl;
 
     @GetMapping("/product/{productId}")
-    public ResponseEntity<ResponseDTO> getInventory(@PathVariable Integer productId) {
-        return inventoryServiceImpl.getInventoryDetails(productId);
+    public ResponseEntity<ResponseDTO> getInventory(@PathVariable Integer productId, @RequestHeader("Authorization") String authorization) {
+        String token = authorization.substring(7);
+        return inventoryServiceImpl.getInventoryDetails(productId, token);
     }
 
     @PutMapping("/product/{productId}/update")

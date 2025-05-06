@@ -12,12 +12,12 @@ import co.com.test.linktic.appEcommerce.utils.Utils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import java.net.URI;
 import java.util.*;
 
 @Service
@@ -32,12 +32,23 @@ public class InventoryServiceImpl implements IInventoryService {
 	@Value("${products.service.url}")
 	private String productServiceUrl;
 
-	public ResponseEntity<ResponseDTO> getInventoryDetails(Integer productId) {
+	public ResponseEntity<ResponseDTO> getInventoryDetails(Integer productId, String token) {
 		log.info("getInventoryDetails - productId: {}", productId);
 		ResponseDTO response;
 
 		try {
-			ResponseDTO productResponse = restTemplate.getForObject(productServiceUrl + productId, ResponseDTO.class);
+			HttpHeaders headers = new HttpHeaders();
+			headers.set("Authorization", "Bearer " + token);
+
+
+			RequestEntity<Void> requestEntity = new RequestEntity<>(headers, HttpMethod.GET,
+					URI.create(productServiceUrl + productId));
+
+			RestTemplate restTemplate = new RestTemplate();
+			ResponseEntity<ResponseDTO> productResponseEntity = restTemplate.exchange(
+					requestEntity, ResponseDTO.class);
+
+			ResponseDTO productResponse = productResponseEntity.getBody();
 			log.info("Respuesta del servicio de productos: {}", productResponse);
 
 			List<?> rawList = (List<?>) productResponse.getObjectResponse();
@@ -54,14 +65,13 @@ public class InventoryServiceImpl implements IInventoryService {
 			product.setDescription((String) productMap.get("description"));
 			product.setPrice((Double) productMap.get("price"));
 			product.setStock((Integer) productMap.get("stock"));
-			//product.setCategory_id(productMap.get("category"));
 
 			Product product_end = productRepository.findById(productId)
 					.orElseThrow(() -> new RuntimeException(Constants.PRODUCTO_NO_ENCONTRADO));
 
 			Map<String, Object> responseBody = new HashMap<>();
-			responseBody.put("product", product);
-			responseBody.put("availableQuantity", product_end.getStock());
+			responseBody.put("producto", product);
+			responseBody.put("cantidad_disponible", product_end.getStock());
 
 			response = Utils.mapearRespuesta(HttpStatus.OK.name(), HttpStatus.OK.value(), responseBody);
 			return new ResponseEntity<>(response, HttpStatus.OK);
