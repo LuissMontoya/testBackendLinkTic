@@ -8,5 +8,5 @@ import org.springframework.http.ResponseEntity;
 public interface IInventoryService {
 
 	ResponseEntity<ResponseDTO>  getInventoryDetails(Integer productId, String token);
-
+	void updateQuantity(int productId, int quantity);
 }

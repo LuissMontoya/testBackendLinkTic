@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import co.com.test.linktic.appEcommerce.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,6 @@ import co.com.test.linktic.appEcommerce.DTO.ResponseDTO;
 import co.com.test.linktic.appEcommerce.entity.Users;
 import co.com.test.linktic.appEcommerce.mapper.UsersMapper;
 import co.com.test.linktic.appEcommerce.repositories.UserRepository;
-import co.com.test.linktic.appEcommerce.service.IUserService;
 import co.com.test.linktic.appEcommerce.utils.Constants;
 import co.com.test.linktic.appEcommerce.utils.Utils;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,11 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class UsersServiceImpl implements IUserService{
+public class UsersServiceImpl implements
+		IUserQueryService,
+		IUserCreateService,
+		IUserUpdateService,
+		IUserDeleteService {
 	
 	private final UserRepository userRepository;
 	

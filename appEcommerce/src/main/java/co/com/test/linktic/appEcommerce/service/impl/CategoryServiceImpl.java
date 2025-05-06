@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import co.com.test.linktic.appEcommerce.service.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,6 @@ import co.com.test.linktic.appEcommerce.DTO.ResponseDTO;
 import co.com.test.linktic.appEcommerce.entity.Category;
 import co.com.test.linktic.appEcommerce.mapper.CategoryMapper;
 import co.com.test.linktic.appEcommerce.repositories.CategoryRepository;
-import co.com.test.linktic.appEcommerce.service.ICategoryService;
 import co.com.test.linktic.appEcommerce.utils.Constants;
 import co.com.test.linktic.appEcommerce.utils.Utils;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,11 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class CategoryServiceImpl implements ICategoryService{
+public class CategoryServiceImpl implements
+		ICategoryQueryService,
+		ICategoryCreateService,
+		ICategoryUpdateService,
+		ICategoryDeleteService {
 	
 	private final CategoryRepository CategoryRepository;
 	

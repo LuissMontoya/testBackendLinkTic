@@ -1,5 +1,9 @@
 package co.com.test.linktic.appEcommerce.controllers;
 
+import co.com.test.linktic.appEcommerce.service.IOrderCreateService;
+import co.com.test.linktic.appEcommerce.service.IOrderDeleteService;
+import co.com.test.linktic.appEcommerce.service.IOrderQueryService;
+import co.com.test.linktic.appEcommerce.service.IOrderUpdateService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import co.com.test.linktic.appEcommerce.DTO.OrderDTO;
 import co.com.test.linktic.appEcommerce.DTO.ResponseDTO;
-import co.com.test.linktic.appEcommerce.service.impl.OrderServiceImpl;
 import co.com.test.linktic.appEcommerce.utils.Constants;
 import co.com.test.linktic.appEcommerce.utils.RespErrorMessage;
 import io.swagger.annotations.ApiResponse;
@@ -27,7 +30,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class OrderController {
 
-	private final OrderServiceImpl orderServiceImpl;
+	private final IOrderCreateService createService;
+	private final IOrderUpdateService updateService;
+	private final IOrderQueryService findService;
+	private final IOrderDeleteService deleteService;
 
 	@ApiResponses(value = {
 			@ApiResponse(code = Constants.CODIGO_200, message = Constants.MESG_200, response = RespErrorMessage.class),
@@ -36,7 +42,7 @@ public class OrderController {
 			@ApiResponse(code = Constants.CODIGO_500, message = Constants.MESG_500, response = RespErrorMessage.class) })
 	@PostMapping("/create")
 	public ResponseEntity<ResponseDTO> saveOrder(@RequestBody OrderDTO order) {
-		return this.orderServiceImpl.saveOrder(order);
+		return this.createService.saveOrder(order);
 	}
 
 	@GetMapping("/search")
@@ -46,7 +52,7 @@ public class OrderController {
 			@ApiResponse(code = Constants.CODIGO_422, message = Constants.MESG_422, response = RespErrorMessage.class),
 			@ApiResponse(code = Constants.CODIGO_500, message = Constants.MESG_500, response = RespErrorMessage.class) })
 	public ResponseEntity<ResponseDTO> findOrderById(@RequestParam("id") Integer id) {
-		return this.orderServiceImpl.findOrderById(id);
+		return this.findService.findOrderById(id);
 	}
 
 	@GetMapping("/getAll")
@@ -56,7 +62,7 @@ public class OrderController {
 			@ApiResponse(code = Constants.CODIGO_422, message = Constants.MESG_422, response = RespErrorMessage.class),
 			@ApiResponse(code = Constants.CODIGO_500, message = Constants.MESG_500, response = RespErrorMessage.class) })
 	public ResponseEntity<ResponseDTO> getAll() {
-		return this.orderServiceImpl.getAll();
+		return this.findService.getAll();
 	}
 
 	@PutMapping("/update")
@@ -66,7 +72,7 @@ public class OrderController {
 			@ApiResponse(code = Constants.CODIGO_422, message = Constants.MESG_422, response = RespErrorMessage.class),
 			@ApiResponse(code = Constants.CODIGO_500, message = Constants.MESG_500, response = RespErrorMessage.class) })
 	public ResponseEntity<ResponseDTO> update(@RequestBody OrderDTO order) {
-		return this.orderServiceImpl.updateOrder(order);
+		return this.updateService.updateOrder(order);
 	}
 	
 	 @DeleteMapping("/delete")
@@ -76,7 +82,7 @@ public class OrderController {
 	            @ApiResponse(code = Constants.CODIGO_422, message = Constants.MESG_422, response = RespErrorMessage.class),
 	            @ApiResponse(code = Constants.CODIGO_500, message = Constants.MESG_500, response = RespErrorMessage.class) })
 	    public ResponseEntity<ResponseDTO> delete(@RequestParam("id") Integer id) {
-	    	return this.orderServiceImpl.delete(id);
+	    	return this.deleteService.delete(id);
 	    	}
 
 

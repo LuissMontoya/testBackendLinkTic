@@ -1,5 +1,9 @@
 package co.com.test.linktic.appEcommerce.controllers;
 
+import co.com.test.linktic.appEcommerce.service.IUserCreateService;
+import co.com.test.linktic.appEcommerce.service.IUserDeleteService;
+import co.com.test.linktic.appEcommerce.service.IUserQueryService;
+import co.com.test.linktic.appEcommerce.service.IUserUpdateService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import co.com.test.linktic.appEcommerce.DTO.UsersDTO;
 import co.com.test.linktic.appEcommerce.DTO.ResponseDTO;
-import co.com.test.linktic.appEcommerce.service.impl.UsersServiceImpl;
 import co.com.test.linktic.appEcommerce.utils.Constants;
 import co.com.test.linktic.appEcommerce.utils.RespErrorMessage;
 import io.swagger.annotations.ApiResponse;
@@ -26,9 +29,12 @@ import lombok.RequiredArgsConstructor;
 @CrossOrigin(origins = "*", methods = { RequestMethod.DELETE, RequestMethod.GET, RequestMethod.POST,RequestMethod.PUT })
 @RequiredArgsConstructor
 public class UserController {
-	
-	private final UsersServiceImpl userServiceImpl;
-	
+
+    private final IUserCreateService createService;
+    private final IUserUpdateService updateService;
+    private final IUserQueryService findService;
+    private final IUserDeleteService deleteService;
+
     @ApiResponses(value = {
             @ApiResponse(code = Constants.CODIGO_200, message = Constants.MESG_200, response = RespErrorMessage.class),
             @ApiResponse(code = Constants.CODIGO_422, message = Constants.MESG_422, response = RespErrorMessage.class),
@@ -36,7 +42,7 @@ public class UserController {
             @ApiResponse(code = Constants.CODIGO_500, message = Constants.MESG_500, response = RespErrorMessage.class) })
     @PostMapping("/create")
 	public ResponseEntity<ResponseDTO> saveClient(@RequestBody UsersDTO client) {
-		return this.userServiceImpl.saveUser(client);
+		return this.createService.saveUser(client);
 	}
 	
     @GetMapping("/search")
@@ -46,7 +52,7 @@ public class UserController {
             @ApiResponse(code = Constants.CODIGO_422, message = Constants.MESG_422, response = RespErrorMessage.class),
             @ApiResponse(code = Constants.CODIGO_500, message = Constants.MESG_500, response = RespErrorMessage.class) })
     public ResponseEntity<ResponseDTO> findClientById(@RequestParam("id") Integer id) {
-        return this.userServiceImpl.findUserById(id);
+        return this.findService.findUserById(id);
     }
     
     @GetMapping("/getAll")
@@ -56,7 +62,7 @@ public class UserController {
             @ApiResponse(code = Constants.CODIGO_422, message = Constants.MESG_422, response = RespErrorMessage.class),
             @ApiResponse(code = Constants.CODIGO_500, message = Constants.MESG_500, response = RespErrorMessage.class) })
     public ResponseEntity<ResponseDTO> getAll() {
-    	return this.userServiceImpl.getAll();
+    	return this.findService.getAll();
     	}
     
     @PutMapping("/update")
@@ -66,7 +72,7 @@ public class UserController {
             @ApiResponse(code = Constants.CODIGO_422, message = Constants.MESG_422, response = RespErrorMessage.class),
             @ApiResponse(code = Constants.CODIGO_500, message = Constants.MESG_500, response = RespErrorMessage.class) })
     public ResponseEntity<ResponseDTO> update(@RequestBody UsersDTO client) {
-    	return this.userServiceImpl.updateUser(client);
+    	return this.updateService.updateUser(client);
     	}
     
     @DeleteMapping("/delete")
@@ -76,7 +82,7 @@ public class UserController {
             @ApiResponse(code = Constants.CODIGO_422, message = Constants.MESG_422, response = RespErrorMessage.class),
             @ApiResponse(code = Constants.CODIGO_500, message = Constants.MESG_500, response = RespErrorMessage.class) })
     public ResponseEntity<ResponseDTO> delete(@RequestParam("id") Integer id) {
-    	return this.userServiceImpl.delete(id);
+    	return this.deleteService.delete(id);
     	}
 
 }
