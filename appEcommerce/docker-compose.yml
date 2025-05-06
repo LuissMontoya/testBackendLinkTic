@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  springboot-app:
+    build: .
+    ports:
+      - "8080:8080"
+    container_name: app-ecommerce
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    restart: on-failure
