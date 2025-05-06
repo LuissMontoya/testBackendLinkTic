@@ -27,21 +27,21 @@ src/main/java/co.com.test.linktic.appEcommerce  <br />
 └── AppEcommerceApplication.java # Clase principal  <br />
 
 ⚙️ Tecnologías Usadas
-Java 17
-Spring Boot 2.5.5 
-Docker + Docker Compose
-JUnit 5
-Springdoc OpenAPI (Swagger)
-BD H2
-Lombok
-MapStruct 
-RestTemplate para comunicación entre microservicios
+Java 17 <br />
+Spring Boot 2.5.5 <br /> 
+Docker + Docker Compose <br />
+JUnit 5 <br />
+Springdoc OpenAPI (Swagger) <br />
+BD H2 <br />
+Lombok <br />
+MapStruct  <br />
+RestTemplate para comunicación entre microservicios <br />
 
 🚀 Instrucciones de instalación y ejecución
-Requisitos previos:
+Requisitos previos: <br />
 Docker y Docker Compose instalados
-docker-compose build
-docker-compose up
+docker-compose build <br />
+docker-compose up <br />
 
 Swagger UI:
 http://localhost:8080/swagger-ui/index.html#/
