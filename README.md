@@ -14,17 +14,17 @@ Los servicios se comunican usando el estándar JSON:API.
 
 📦 Estructura del Proyecto:
 
-src/main/java/co.com.test.linktic.appEcommerce
-├── Config/ # Configuraciones globales (seguridad, CORS, beans, etc.)
-├── controllers/ # Controladores REST que manejan las solicitudes HTTP
-├── dto/ # Clases que representan los datos transferidos entre capas
-├── entity/ # Entidades JPA que representan las tablas de la base de datos
-├── mapper/ # Mappers entre entidades y DTOs
-├── repositories/ # Repositorios JPA (acceso a datos)
-├── service/ # Interfaces de lógica de negocio
-├── service/impl/ # Implementaciones de servicios
-├── utils/ # Clases utilitarias (mapeo, constantes, validaciones)
-└── AppEcommerceApplication.java # Clase principal 
+src/main/java/co.com.test.linktic.appEcommerce  <br />
+├── Config/ # Configuraciones globales (seguridad, CORS, beans, etc.)  <br />
+├── controllers/ # Controladores REST que manejan las solicitudes HTTP  <br />
+├── dto/ # Clases que representan los datos transferidos entre capas  <br />
+├── entity/ # Entidades JPA que representan las tablas de la base de datos  <br />
+├── mapper/ # Mappers entre entidades y DTOs <br />
+├── repositories/ # Repositorios JPA (acceso a datos) <br />
+├── service/ # Interfaces de lógica de negocio <br />
+├── service/impl/ # Implementaciones de servicios <br />
+├── utils/ # Clases utilitarias (mapeo, constantes, validaciones) <br />
+└── AppEcommerceApplication.java # Clase principal  <br />
 
 ⚙️ Tecnologías Usadas
 Java 17
